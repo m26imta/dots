@@ -1,0 +1,91 @@
+# modules/zsh.nix
+{ config, pkgs, ... }:
+
+{
+  programs.zsh = {
+    enable = true;
+    dotDir = ".config/zsh"; # Lưu cấu hình trong ~/.config/zsh
+
+    # Plugin từ nixpkgs
+    plugins = [
+      {
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+        name = "zsh-autosuggestions";
+        src = pkgs.zsh-autosuggestions;
+        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = pkgs.zsh-syntax-highlighting;
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+      }
+    ];
+
+    # Khởi tạo shell
+    initExtra = ''
+      # Cấu hình Powerlevel10k
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+
+      # Tạo file cấu hình p10k nếu chưa tồn tại
+      if [[ ! -f ~/.p10k.zsh ]]; then
+        cp ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/config/p10k-lean.zsh ~/.p10k.zsh
+      fi
+
+      # Tải cấu hình p10k
+      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+      # Tùy chỉnh bổ sung
+      zstyle ':completion:*' menu select
+      setopt histignoredups
+      bindkey -e
+    '';
+
+    # Biến môi trường
+    envExtra = ''
+      export EDITOR="nvim"
+      export VISUAL="nvim"
+      export PATH="$PATH:$HOME/.local/bin"
+    '';
+
+    # Alias thông dụng
+    shellAliases = {
+      ll = "ls -l";
+      la = "ls -la";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      update = "sudo nixos-rebuild switch";
+      gc = "nix-collect-garbage -d";
+      vim = "nvim";
+      cat = "bat";
+    };
+
+    # Tự động hoàn thành
+    enableCompletion = true;
+    completionInit = ''
+      autoload -U compinit && compinit
+      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+    '';
+
+    # Lịch sử lệnh
+    history = {
+      size = 10000;
+      save = 10000;
+      path = "${config.xdg.dataHome}/zsh/history";
+      ignoreDups = true;
+      ignoreSpace = true;
+      share = true;
+    };
+  };
+
+  # Cài đặt các gói cần thiết
+  home.packages = with pkgs; [
+    zsh-powerlevel10k
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    bat # Cho alias cat
+  ];
+}
