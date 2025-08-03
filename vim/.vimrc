@@ -36,6 +36,10 @@ map <c-f> <Nop>
 map <c-b> <Nop>
 map <s-j> <Nop>
 
+"" Clipboard
+xnoremap gy y:call system('xsel -i -b', getreg('"'))<CR>    ;"" yank & copy register " to system clipboard
+
+
 "" Enter Visual-Block mode
 vnoremap <C-\> <C-V>
 
