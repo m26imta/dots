@@ -1,7 +1,15 @@
-# modules/zsh.nix
+# modules/zsh/zsh.nix
 { config, pkgs, lib, ... }:
 
 {
+  programs.bash.enable = true;
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;

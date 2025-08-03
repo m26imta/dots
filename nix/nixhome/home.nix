@@ -35,7 +35,11 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
 
+
     pkgs.cowsay
+
+    #neovim
+    pkgs.neovim
 
   ];
 
@@ -76,13 +80,15 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  # programs.fzf.enable = true;
 
   
   # modules
   imports = [
     # zsh
     ./modules/zsh/zsh.nix
+
+    # neovim
+    # ./modules/neovim/neovim.nix
   ];
 
 
