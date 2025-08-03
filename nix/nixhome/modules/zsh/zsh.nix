@@ -2,7 +2,13 @@
 { config, pkgs, lib, ... }:
 
 {
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    initExtra = ''
+    [[ -f "$HOME/.mybashrc" ]] && source $HOME/.mybashrc
+    '';
+  };
 
   programs.fzf = {
     enable = true;
@@ -23,6 +29,10 @@
       # BROWSER = "firefox";
       # TERMINAL = "alacritty";
     };
+
+    initContent = ''
+    [[ -f "$HOME/.mybashrc" ]] && source $HOME/.mybashrc
+    '';
 
 
     # Oh My Zsh configuration (optional)
