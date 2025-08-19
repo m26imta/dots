@@ -7,6 +7,12 @@ let maplocalleader = "\\"
 color industry
 silent! color habamax
 
+"" Avoid Alt trigger the menu on gVim/Windows
+set winaltkeys=no
+"" Tang do nhay nhan chuoi ESC
+set ttimeout
+set ttimeoutlen=50
+
 "" Options
 set timeoutlen=300
 set clipboard=unnamed,unnamedplus
@@ -89,8 +95,12 @@ noremap! <C-l> <Nop>
 " noremap! <C-l> <RIGHT>
 cnoremap <A-j> <DOWN>
 cnoremap <A-k> <UP>
+"" Moving around text with Alt+h/Alt+l
 noremap! <A-h> <LEFT>
 noremap! <A-l> <RIGHT>
+"" Fallback : neu Alt gui ESC+h / ESC+l
+noremap! <ESC>h <LEFT>
+noremap! <ESC>l <RIGHT>
 
 "" Better move through wrap line
 noremap j g<DOWN>
