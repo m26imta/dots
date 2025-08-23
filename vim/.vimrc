@@ -7,14 +7,8 @@ let maplocalleader = "\\"
 color industry
 silent! color habamax
 
-"" Avoid Alt trigger the menu on gVim/Windows
-set winaltkeys=no
-"" Tang do nhay nhan chuoi ESC
-set ttimeout
-set ttimeoutlen=50
-
 "" Options
-set timeoutlen=300
+set timeout timeoutlen=300
 set clipboard=unnamed,unnamedplus
 set mouse=a number norelativenumber cursorline
 set ts=2 sw=2 sts=2
@@ -27,6 +21,17 @@ set scrolloff=4 sidescrolloff=8
 set nolist listchars=tab:→\ ,nbsp:␣,trail:•,space:⋅,extends:▶,precedes:◀,eol:↴
 " set shortmess+=c
 " set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/.git/*
+
+"" Avoid Alt trigger the menu on gVim/Windows
+set winaltkeys=no
+"" Tang do nhay nhan chuoi ESC
+set ttimeout ttimeoutlen=50
+"" ESC/mapping fast in Insert, normal if not in Insert-mode
+augroup FastEscOnlyInInsert
+  autocmd!
+  autocmd InsertEnter * set timeoutlen=50
+  autocmd InsertLeave * set timeoutlen=300
+augroup END
 
 "" Keymaps
 nnoremap ; :
