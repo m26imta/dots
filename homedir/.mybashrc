@@ -42,6 +42,13 @@ alias la='ls -A'
 alias ll='ls -lhF'
 alias lla='ls -lahF'
 
+if command -v eza > /dev/null 2>&1; then
+  alias l='eza -F'
+  alias la='eza -A'
+  alias ll='eza -lhF'
+  alias lla='eza -lahF'
+fi
+
 # WSL
 if [[ -f "/etc/wsl.conf" ]]; then
     alias e="explorer.exe"
