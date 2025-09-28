@@ -43,10 +43,10 @@ alias ll='ls -lhF'
 alias lla='ls -lahF'
 
 if command -v eza > /dev/null 2>&1; then
-  alias l='eza -F'
-  alias la='eza -A'
-  alias ll='eza -lhF'
-  alias lla='eza -lahF'
+  alias l='eza -hgF'
+  alias la='eza -hgA'
+  alias ll='eza -lhgF'
+  alias lla='eza -lahgF'
 fi
 
 # WSL

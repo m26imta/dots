@@ -239,7 +239,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if exists("g:neovide")
   let cursor_vfx_mode = ["railgun", "torpedo", "pixiedust", "sonicboom", "ripple", "wireframe"]
-  let g:neovide_cursor_vfx_mode = cursor_vfx_mode[5]
+  let g:neovide_cursor_vfx_mode = cursor_vfx_mode[4]
   set guifont=JetBrainsMono\ Nerd\ Font:h11
   let g:neovide_transparency = 0.95
   " let g:neovide_fullscreen = v:true  "" windowed fullscreen mode
@@ -305,14 +305,17 @@ let g:NERDTreeMapJumpParent = 'h'
 "require"bufferline".setup{}
 "EOF
 
-"" ayu-theme
-set termguicolors       " enable true colors support
-""set background=light    " for light version of theme
-set background=dark     " for either mirage or dark version.
-" NOTE: `background` controls `g:ayucolor`, but `g:ayucolor` doesn't control `background`
-""let g:ayucolor="mirage" " for mirage version of theme
-let g:ayucolor="dark"   " for dark version of theme
-" NOTE: g:ayucolor will default to 'dark' when not set.
-silent! colorscheme ayu
+"" theme ayu loi trong terminal cua macOS, so fail back to habamax
+if !has("macunix")
+  "" ayu-theme
+  set termguicolors       " enable true colors support
+  ""set background=light    " for light version of theme
+  set background=dark     " for either mirage or dark version.
+  " NOTE: `background` controls `g:ayucolor`, but `g:ayucolor` doesn't control `background`
+  ""let g:ayucolor="mirage" " for mirage version of theme
+  let g:ayucolor="dark"   " for dark version of theme
+  " NOTE: g:ayucolor will default to 'dark' when not set.
+  silent! colorscheme ayu
+endif
 
 endif

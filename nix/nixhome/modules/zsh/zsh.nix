@@ -70,6 +70,7 @@
     tree         # Directory tree
     htop         # Process viewer
     neofetch     # System info
+    tmux
 
     # Development tools
     git
