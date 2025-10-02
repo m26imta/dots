@@ -43,10 +43,10 @@ alias ll='ls -lhF'
 alias lla='ls -lahF'
 
 if command -v eza > /dev/null 2>&1; then
-  alias l='eza -hgF'
-  alias la='eza -hgA'
-  alias ll='eza -lhgF'
-  alias lla='eza -lahgF'
+  alias l='eza -hgF --group-directories-first'
+  alias la='eza -hgA --group-directories-first'
+  alias ll='eza -lhgF --group-directories-first'
+  alias lla='eza -lahgF --group-directories-first'
 fi
 
 # WSL
