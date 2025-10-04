@@ -19,9 +19,10 @@ bootstrap home-manager:
     xcode-select --install
 1. Install homebrew:
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-2. Install stow, wezterm
+2. Install stow, wezterm, nerd-font
     brew install stow
     brew install --cask wezterm
+    brew install --cask font-jetbrains-mono-nerd-font
 1. run_me_to_SETUP.sh to stow the dotfiles
 2. nix-package-manager:
     - Install nix package manager: 
