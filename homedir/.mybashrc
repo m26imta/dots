@@ -17,7 +17,7 @@ export PATH="/usr/local/go/bin:$PATH"
 [[ -f "$HOME/bin/venv_wrapper" ]] && . "$HOME/bin/venv_wrapper"
 
 # python virtualenvwrapper
-if (pip list | grep virtualenvwrapper 2>&1 > /dev/null); then
+if (pip list 2>&1 > /dev/null| grep virtualenvwrapper 2>&1 > /dev/null); then
   export WORKON_HOME=$HOME/Envs
   [[ ! -d "$HOME/Envs" ]] && (mkdir -p $WORKON_HOME)
   # check & source virtualenvwrapper.sh
