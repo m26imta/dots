@@ -37,10 +37,10 @@ bootstrap home-manager:
 #Ubuntu
 0. apt update && apt upgrade
     sudo apt update && sudo apt upgrade -y
-1. sudo apt install stow
+1. sudo apt install stow unzip
 2. Install nerd-fonts
-    mkdir -p $HOME/.fonts/JetBrainsMono
-    curl -Lo https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+    mkdir -p $HOME/.fonts/JetBrainsMono && cd $_
+    curl -fLo JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
     file JetBrainsMono.zip
     unzip JetBrainsMono.zip -d $HOME/.fonts/JetBrainsMono/
     fc-cache -fv
