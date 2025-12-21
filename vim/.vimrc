@@ -1,6 +1,3 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" vimrc
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = " "
 let maplocalleader = "\\"
 
@@ -24,34 +21,74 @@ set nolist listchars=tab:→\ ,nbsp:␣,trail:•,space:⋅,extends:▶,precedes
 
 "" Avoid Alt trigger the menu on gVim/Windows
 set winaltkeys=no
+
+
+"" """"
+"" Keymaps
+"" """"
+""          Mode  | Norm | Ins | Cmd | Vis | Sel | Opr | Term | Lang | ~
+"" Command        +------+-----+-----+-----+-----+-----+------+------+ ~
+"" [nore]map      | yes  |  -  |  -  | yes | yes | yes |  -   |  -   |
+"" n[nore]map     | yes  |  -  |  -  |  -  |  -  |  -  |  -   |  -   |
+"" [nore]map!     |  -   | yes | yes |  -  |  -  |  -  |  -   |  -   |
+"" i[nore]map     |  -   | yes |  -  |  -  |  -  |  -  |  -   |  -   |
+"" c[nore]map     |  -   |  -  | yes |  -  |  -  |  -  |  -   |  -   |
+"" v[nore]map     |  -   |  -  |  -  | yes | yes |  -  |  -   |  -   |
+"" x[nore]map     |  -   |  -  |  -  | yes |  -  |  -  |  -   |  -   |
+"" s[nore]map     |  -   |  -  |  -  |  -  | yes |  -  |  -   |  -   |
+"" o[nore]map     |  -   |  -  |  -  |  -  |  -  | yes |  -   |  -   |
+"" t[nore]map     |  -   |  -  |  -  |  -  |  -  |  -  | yes  |  -   |
+"" l[nore]map     |  -   | yes | yes |  -  |  -  |  -  |  -   | yes  |
+""
+"" Fast enter command-line
+nnoremap ; :
+"" """"
+"" ESC key
+"" """"
+inoremap jk <ESC>
+inoremap kj <ESC>
 "" Tang do nhay nhan chuoi ESC
 set ttimeout ttimeoutlen=50
 "" ESC/mapping fast in Insert, normal if not in Insert-mode
+"" ESC se thoat InsertMode nhanh hon
 augroup FastEscOnlyInInsert
   autocmd!
-  autocmd InsertEnter * set timeoutlen=50
+  autocmd InsertEnter * set timeoutlen=129
   autocmd InsertLeave * set timeoutlen=300
 augroup END
-
-"" Keymaps
-nnoremap ; :
-inoremap jk <ESC>
 "" fix error 2;2R in vim. <ESC> -> nohl only in neovim
 if has('nvim')
-  nnoremap <silent> <ESC> :nohl<CR>
+  ""nnoremap <silent> <ESC><ESC> :nohl<CR>
 endif
 nnoremap <silent> <leader><ESC> :nohl<CR>
+
 "" nnoremap <C-x> :q!<CR>
 nnoremap <C-q> :q!<CR>
-map <c-f> <Nop>
-map <c-b> <Nop>
-map <s-j> <Nop>
+map <C-f> <Nop>
+map <C-b> <Nop>
+map <C-j> <Nop>
 
+" Saving, also in Insert mode (<C-O> doesn't work well when
+" using completions).
+noremap  <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <Esc>:update<CR>gi
+nnoremap <C-l><C-r> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
+nnoremap <C-r><C-l> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
+
+"" """"
 "" Clipboard
+"" yank & copy register " to system clipboard, and you can user CTRL+SHIFT+V
+""to paste to
 xnoremap gy y:call system('xsel -i -b', getreg('"'))<CR>    ;"" yank & copy register " to system clipboard
+"" Quick paste using + register
+"" inoremap <C-r><C-r> <C-\><C-o>"+P
+inoremap <C-r><C-e> <C-\><C-o>"+P
+inoremap <C-e><C-r> <C-\><C-o>"+P
+cnoremap <C-r><C-r> <C-r>+
 
 
-"" Enter Visual-Block mode
+"" Enter Visual-Block mode, press v to enter Visual mode then press C-\ to enter Visual-Block
 vnoremap <C-\> <C-V>
 
 "" Toggle wrap, listchars & relativenumber
@@ -59,26 +96,35 @@ map <F5> :set relativenumber!<CR>
 map <F7> :set wrap!<CR>:set wrap?<CR>
 map <F8> :set list!<CR>:set list?<CR>
 
-" Use CTRL-S for saving, also in Insert mode (<C-O> doesn't work well when
-" using completions).
-noremap  <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <Esc>:update<CR>gi
-
+"" """"
 "" Buffer
-" delete buffer
+"" """"
+map <S-x> <Nop>
 nnoremap <S-x> :bd!<CR>
-" nnoremap <S-x> :exe 'if exists("Bd") \| Bd \| else \| bd \| endif'
-function Do_del_buffer()
-  if exists(":Bdelete")>0
-    :Bdelete!
+"" Smart delete the buffer without messing the layout
+command! BufferDelete bp | bd #
+""nnoremap <silent> <Leader>dd :BufferDelete<CR>
+nnoremap <S-x> :bp \| bd #<CR>
+nnoremap <silent> <S-x> :BufferDelete<CR>
+"" """"
+function! SmartBdelete()
+  let l:buf = bufnr('%')
+
+  " Switch away first to preserve layout
+  if buflisted(l:buf)
+    execute 'bp'
+  endif
+
+  " Terminal buffer?
+  if getbufvar(l:buf, '&buftype') ==# 'terminal'
+    execute 'bd!' l:buf
   else
-    :bdel!
+    execute 'bd' l:buf
   endif
 endfunction
-nnoremap <silent> <S-x> :call Do_del_buffer()<CR>
-nnoremap <silent> <S-x> :execute exists(":Bdelete")>0?"Bdelete!":"bdel!"<CR>
-"
+
+"" nnoremap <silent> <Leader>dd :call SmartBdelete()<CR>
+"" """"
 nnoremap <S-h> :bp<CR>
 nnoremap <S-l> :bn<CR>
 noremap <C-PageUp> :bp<CR>
@@ -89,21 +135,28 @@ nnoremap ~ :b#<CR>
 " nnoremap <leader>bb :ls<CR>:b<Space>
 " nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
-"" Move around text in InsertMode & CommandMode
+"" """"
+"" MOVE AROUND
+""  in InsertMode & CommandMode
 noremap! <C-j> <Nop>
 noremap! <C-k> <Nop>
 noremap! <C-h> <Nop>
 noremap! <C-l> <Nop>
+noremap! <A-j> <Nop>
+noremap! <A-k> <Nop>
+noremap! <A-h> <Nop>
+noremap! <A-l> <Nop>
 " cnoremap <C-j> <DOWN>
 " cnoremap <C-k> <UP>
 " noremap! <C-h> <LEFT>
 " noremap! <C-l> <RIGHT>
-cnoremap <A-j> <DOWN>
-cnoremap <A-k> <UP>
-"" Moving around text with Alt+h/Alt+l
+"" Moving around text with Alt + jkhl
+noremap! <A-j> <DOWN>
+noremap! <A-k> <UP>
+noremap! <ESC>j <DOWN>
+noremap! <ESC>k <UP>
 noremap! <A-h> <LEFT>
 noremap! <A-l> <RIGHT>
-"" Fallback : neu Alt gui ESC+h / ESC+l
 noremap! <ESC>h <LEFT>
 noremap! <ESC>l <RIGHT>
 
@@ -170,17 +223,14 @@ nnoremap = <C-a>
 nnoremap x "_x
 vnoremap p "_dP
 
-"" Quick paste using + register
-inoremap <C-r><C-r> <C-\><C-o>"+P
-cnoremap <C-r><C-r> <C-r>+
 
 "" Search & Replace
 nnoremap <C-f> <Nop>
 vnoremap <C-f> y<ESC>/<C-r>"<CR>
 vnoremap <C-r> <Nop>
 vnoremap <C-r><C-e> "hy:%s/<C-r>h//gc<LEFT><LEFT><LEFT>
-nnoremap gb :ls<CR>:b<SPACE>
-nnoremap gr yiw:%s/<C-r>0//g<LEFT><LEFT>
+nnoremap gls :ls<CR>:b<SPACE>
+nnoremap gre yiw:%s/<C-r>0//g<LEFT><LEFT>
 
 "" Status line
 if &statusline==""
@@ -217,7 +267,6 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" VIM
@@ -275,14 +324,14 @@ call plug#begin()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " List your plugins here
 
-Plug 'tpope/vim-sensible'
+"Plug 'tpope/vim-sensible'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'nvim-tree/nvim-web-devicons'
 " Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 "" Delete buffers and close files in Vim without closing your windows or messing up your layout.
-Plug 'https://github.com/moll/vim-bbye'
+"Plug 'https://github.com/moll/vim-bbye'
 
 "" ayu theme
 Plug 'Luxed/ayu-vim'    " or other package manager
@@ -319,3 +368,7 @@ if !has("macunix")
 endif
 
 endif
+
+
+
+
