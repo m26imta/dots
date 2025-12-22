@@ -102,9 +102,8 @@ map <S-x> <Nop>
 nnoremap <S-x> :bd!<CR>
 "" Smart delete the buffer without messing the layout
 command! BufferDelete bp | bd #
-""nnoremap <silent> <Leader>dd :BufferDelete<CR>
-nnoremap <S-x> :bp \| bd #<CR>
-nnoremap <silent> <S-x> :BufferDelete<CR>
+nnoremap <silent><S-x> :bp \| bd #<CR>
+nnoremap <silent><S-x> :BufferDelete<CR>
 "" """"
 function! SmartBdelete()
   let l:buf = bufnr('%')
@@ -121,8 +120,7 @@ function! SmartBdelete()
     execute 'bd' l:buf
   endif
 endfunction
-
-"" nnoremap <silent> <Leader>dd :call SmartBdelete()<CR>
+nnoremap <silent><S-x> :call SmartBdelete()<CR>
 "" """"
 nnoremap <S-h> :bp<CR>
 nnoremap <S-l> :bn<CR>
