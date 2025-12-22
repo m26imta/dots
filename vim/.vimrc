@@ -68,8 +68,7 @@ map <C-f> <Nop>
 map <C-b> <Nop>
 map <C-j> <Nop>
 
-" Saving, also in Insert mode (<C-O> doesn't work well when
-" using completions).
+" Saving, also in Insert mode (<C-O> doesn't work well when using completions).
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>gi
