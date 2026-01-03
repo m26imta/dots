@@ -9,6 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+### Mod4 > Win-key
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -184,6 +185,7 @@ bindsym $mod+r mode "resize"
 #         status_command i3status
 # }
 ### i3blocks
+# To-install: run > sudo apt install -y i3blocks
 bar {
   position top                  # Position should be 'bottom' or 'top'.
   status_command i3blocks       # Invoke i3blocks.
@@ -196,13 +198,17 @@ bar {
 # start dmenu (a program launcher)
 #bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
+# To-instal: run > sudo apt install -y rofi
 bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 ### rofi-power-menu
-bindsym $mod+Mod1+l exec "rofi -show p -modi p:~/bin/rofi-power-menu"
+# jluttine/rofi-power-menu
+# git clone https://github.com/jluttine/rofi-power-menu ~/bin/rofi-power-menu
+# Mod + Alt + L > power-menu
+bindsym $mod+Mod1+l exec "rofi -show p -modi p:~/bin/rofi-power-menu/rofi-power-menu"
 
 ## start some app at login
 # exec --no-startup-id blabla
