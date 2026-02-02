@@ -1,3 +1,11 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" VIM
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"" minimal -  true: no plugin / false: use plugin
+let minimal=v:true
+
 let mapleader = " "
 let maplocalleader = "\\"
 
@@ -23,6 +31,16 @@ set nolist listchars=tab:→\ ,nbsp:␣,trail:•,space:⋅,extends:▶,precedes
 set winaltkeys=no
 
 
+"" Disable some key
+map <S-q> <Nop>
+map <S-j> <Nop>
+"map <S-k> <Nop>
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" """"
 "" Keymaps
 "" """"
@@ -53,14 +71,15 @@ set ttimeout ttimeoutlen=50
 "" ESC se thoat InsertMode nhanh hon
 augroup FastEscOnlyInInsert
   autocmd!
-  autocmd InsertEnter * set timeoutlen=129
+  autocmd InsertEnter * set timeoutlen=139
   autocmd InsertLeave * set timeoutlen=300
 augroup END
 "" fix error 2;2R in vim. <ESC> -> nohl only in neovim
 if has('nvim')
   ""nnoremap <silent> <ESC><ESC> :nohl<CR>
 endif
-nnoremap <silent> <leader><ESC> :nohl<CR>
+nnoremap <leader><F12> :nohl<CR>
+nnoremap <leader><DEL> :nohl<CR>
 
 "" nnoremap <C-x> :q!<CR>
 nnoremap <C-q> :q!<CR>
@@ -72,8 +91,8 @@ map <C-j> <Nop>
 noremap  <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <Esc>:update<CR>gi
-nnoremap <C-l><C-r> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
-nnoremap <C-r><C-l> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
+" nnoremap <C-l><C-r> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
+" nnoremap <C-r><C-l> :source $HOME/.vimrc<CR>:echo ".vimrc reloaded"<CR>
 
 "" """"
 "" Clipboard
@@ -84,16 +103,18 @@ xnoremap gy y:call system('xsel -i -b', getreg('"'))<CR>    ;"" yank & copy regi
 "" inoremap <C-r><C-r> <C-\><C-o>"+P
 inoremap <C-r><C-e> <C-\><C-o>"+P
 inoremap <C-e><C-r> <C-\><C-o>"+P
+cnoremap <C-r><C-e> <C-r>+
+cnoremap <C-e><C-r> <C-r>+
 cnoremap <C-r><C-r> <C-r>+
 
-
-"" Enter Visual-Block mode, press v to enter Visual mode then press C-\ to enter Visual-Block
-vnoremap <C-\> <C-V>
+"" enter visual-block mode, press v to enter visual mode then press c-\ to enter visual-block
+"vnoremap <c-\> <c-v>
 
 "" Toggle wrap, listchars & relativenumber
 map <F5> :set relativenumber!<CR>
 map <F7> :set wrap!<CR>:set wrap?<CR>
 map <F8> :set list!<CR>:set list?<CR>
+map <F12> :set paste!<CR>
 
 "" """"
 "" Buffer
@@ -139,21 +160,21 @@ noremap! <C-j> <Nop>
 noremap! <C-k> <Nop>
 noremap! <C-h> <Nop>
 noremap! <C-l> <Nop>
-noremap! <A-j> <Nop>
-noremap! <A-k> <Nop>
-noremap! <A-h> <Nop>
-noremap! <A-l> <Nop>
+noremap! <M-j> <Nop>
+noremap! <M-k> <Nop>
+noremap! <M-h> <Nop>
+noremap! <M-l> <Nop>
 " cnoremap <C-j> <DOWN>
 " cnoremap <C-k> <UP>
 " noremap! <C-h> <LEFT>
 " noremap! <C-l> <RIGHT>
 "" Moving around text with Alt + jkhl
-noremap! <A-j> <DOWN>
-noremap! <A-k> <UP>
+noremap! <M-j> <DOWN>
+noremap! <M-k> <UP>
 noremap! <ESC>j <DOWN>
 noremap! <ESC>k <UP>
-noremap! <A-h> <LEFT>
-noremap! <A-l> <RIGHT>
+noremap! <M-h> <LEFT>
+noremap! <M-l> <RIGHT>
 noremap! <ESC>h <LEFT>
 noremap! <ESC>l <RIGHT>
 
@@ -169,22 +190,39 @@ nnoremap <C-l> <C-w><RIGHT>
 nnoremap <C-j> <C-w><DOWN>
 nnoremap <C-k> <C-w><UP>
 " CTRL-Tab is Next window
-noremap <C-Tab> <C-W>w
-inoremap <C-Tab> <C-O><C-w>w
-cnoremap <C-Tab> <C-C><C-w>w
-onoremap <C-Tab> <C-C><C-w>w
+"nnoremap <C-Tab> <C-W>w
 
 "" Indent
+inoremap <M-H> <ESC>v<gi
+inoremap <M-L> <ESC>v>gi
+inoremap <ESC>H <ESC>v<gi
+inoremap <ESC>L <ESC>v>gi
 nnoremap < v<
 nnoremap > v>
+nnoremap <M-H> v<
+nnoremap <M-L> v>
+nnoremap <ESC>H v<
+nnoremap <ESC>L v>
 vnoremap < <gv
 vnoremap > >gv
 vnoremap <S-h> <gv
 vnoremap <S-l> >gv
+vnoremap <M-H> <gv
+vnoremap <M-L> >gv
+vnoremap <ESC>H <gv
+vnoremap <ESC>L >gv
 
 "" Move lines up & down
+nnoremap <S-j> :m .+1<cr>==
+nnoremap <S-k> :m .-2<cr>==
 vnoremap <S-j> :m '>+1<cr>gv=gv
 vnoremap <S-k> :m '<-2<cr>gv=gv
+vnoremap <ESC>J :m '>+1<cr>gv=gv
+vnoremap <ESC>K :m '<-2<cr>gv=gv
+inoremap <M-J> <ESC>:m .+1<cr>==gi
+inoremap <M-K> <ESC>:m .-2<cr>==gi
+inoremap <ESC>J <ESC>:m .+1<cr>==gi
+inoremap <ESC>K <ESC>:m .-2<cr>==gi
 
 """"
 " nnoremap <A-j> :m .+1<cr>==
@@ -220,7 +258,6 @@ nnoremap = <C-a>
 nnoremap x "_x
 vnoremap p "_dP
 
-
 "" Search & Replace
 nnoremap <C-f> <Nop>
 vnoremap <C-f> y<ESC>/<C-r>"<CR>
@@ -229,23 +266,20 @@ vnoremap <C-r><C-e> "hy:%s/<C-r>h//gc<LEFT><LEFT><LEFT>
 nnoremap gls :ls<CR>:b<SPACE>
 nnoremap gre yiw:%s/<C-r>0//g<LEFT><LEFT>
 
-"" Status line
-if &statusline==""
-  set showmode
-  set laststatus=2
-  set statusline=\ %{&paste==1?'[PASTE\ MODE]\ \ ':''}\ %t\ %w\ \|\ CWD:\ %r%{getcwd()}%h\ \ \|\ %l:%c\ 
-endif
 
 
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Netrw
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " https://vonheikemen.github.io/devlog/tools/using-netrw-vim-builtin-file-explorer/
 let g:netrw_keepdir = 0
-let g:netrw_winsize = 30
-nnoremap <leader>dd :cd %:p:h<CR>:Lexplore<CR>:pwd<CR>
-nnoremap <leader>de :Lexplore<CR>
+let g:netrw_winsize = 25
+nnoremap <leader>E :cd %:p:h<CR>:Lexplore<CR>:pwd<CR>
 nnoremap <leader>1 :Lexplore<CR>
+nnoremap <C-F1>    :Lexplore<CR>
+nnoremap <S-F1>    :Lexplore<CR>
 
 function! NetrwMapping()
   nmap <buffer> H u
@@ -265,9 +299,185 @@ augroup netrw_mapping
   autocmd filetype netrw call NetrwMapping()
 augroup END
 
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if minimal==v:true                                 " no plugin
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  "" Status line
+  "" https://stackoverflow.com/questions/5375240/a-more-useful-statusline-in-vim
+  "" https://stackoverflow.com/questions/30283764/whats-wrong-with-this-vimrc-im-not-getting-the-colors-im-supposed-to
+  if &statusline==""
+    set showmode
+    set laststatus=2
+    set statusline=\ %{&paste==1?'[PASTE\ MODE]\ \ ':''}\ %t\ %w\ \|\ CWD:\ %r%{getcwd()}%h\ \ \|\ %l:%c\
+
+
+    set statusline=\ %#StatusLine#\ %t\ %m%r\ %=%#LineNr#\ %y\ [%{&fileencoding}]\ %l:%c\ %p%%
+
+
+    set statusline=
+    set statusline +=\ %n\             "buffer number
+    set statusline +=%{&ff}            "file format
+    set statusline +=%y                "file type
+    set statusline +=\ %<%F            "full path
+    set statusline +=%m                "modified flag
+    set statusline +=\|%=\|%5l\|       "current line
+    set statusline +=/%L               "total lines
+    set statusline +=%4v\              "virtual column number
+    set statusline +=0x%04B\           "character under cursor
+
+
+    set statusline=
+    set statusline+=\ %{&paste==1?'[PASTE\ MODE]\ \ ':''}         "paste_mode ?
+    set statusline+=%t\ [%w%r%h%M]\|                            "status ?
+    set statusline+=\ CWD:\ %r%{getcwd()}\|                       "CWD
+    set statusline+=%=                                            "separator
+    set statusline+=\|%5l/%-5c                                    "line / column
+
+
+    set statusline=
+    set statusline+=\ %n\|                                        "buffer number
+    set statusline+=%{&paste==1?'[PASTE_MODE]':''}                "paste_mode ?
+    set statusline+=\ %t                                          "file_name
+    set statusline+=\ %w%r%h%m                                    "modified status
+    set statusline+=%=                                            "separator
+    set statusline+=%<\ CWD=%{getcwd()}\ \|\                        "CWD
+    set statusline+=%f                                            "full_path(relative)
+    set statusline+=\ [%{&fileformat}\|%{&fileencoding}]\ 
+    set statusline+=\|%5l/%L\                                     "line / total
+    set statusline+=[%3v]                                         "virtual column number
+    set statusline+=\ 0x%04B\                                     "character under cursor
+
+  endif
+
+
+
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  "" bufferline - tabline
+  "" https://www.reddit.com/r/vim/comments/11tdlx0/i_made_a_bufferline_with_40_lines_of_vimscript/
+  set showtabline=2
+
+  function! SpawnBufferLine()
+    let s = ''
+    if has('nvim')
+      let s .= 'NVIM | '
+    else
+      let s .= 'VIM | '
+    endif
+
+    " Get the list of buffers. Use bufexists() to include hidden buffers
+    let bufferNums = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    " Making a buffer list on the left side
+    for i in bufferNums
+      " Highlight with yellow if it's the current buffer
+      let s .= (i == bufnr()) ? ('%#TabLineSel#') : ('%#TabLine#')
+      let s .= i . ' '  " Append the buffer number
+      if bufname(i) == ''
+        let s .= '[NEW]'  " Give a name to a new buffer
+      endif
+      if getbufvar(i, "&modifiable")
+        let s .= fnamemodify(bufname(i), ':t')  " Append the file name
+        " let s .= pathshorten(bufname(i))  " Use this if you want a trimmed path
+        " If the buffer is modified, add + and separator. Else, add separator
+        let s .= (getbufvar(i, "&modified")) ? (' [+] | ') : (' | ')
+      else
+        let s .= fnamemodify(bufname(i), ':t') . ' [RO] | '  " Add read only flag
+      endif
+    endfor
+    let s .= '%#TabLineFill#%T'  " Reset highlight
+
+    let s .= '%=' " Spacer
+
+    " Making a tab list on the right side
+    for i in range(1, tabpagenr('$'))  " Loop through the number of tabs
+      " Highlight with yellow if it's the current tab
+      let s .= (i == tabpagenr()) ? ('%#TabLineSel#') : ('%#TabLine#')
+      let s .= '%' . i . 'T '  " set the tab page number (for mouse clicks)
+      let s .= i . ''          " set page number string
+    endfor
+    let s .= '%#TabLineFill#%T'  " Reset highlight
+
+    " Close button on the right if there are multiple tabs
+    if tabpagenr('$') > 1
+      let s .= '%999X X'
+    endif
+    return s
+  endfunction
+
+  set tabline=%!SpawnBufferLine()  " Assign the tabline
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+else                                              " use plugin
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  "" Vim-Plug
+  ""   Install vim-plug on Windows
+  ""   Run this in PowerShell
+  "" iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni $HOME/vimfiles/autoload/plug.vim -Force
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  "" auto install vim-plug
+  """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  if has("unix") && !has("nvim")
+    let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+    if empty(glob(data_dir . '/autoload/plug.vim'))
+      silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+  endif
+
+
+  if !has("nvim")
+    call plug#begin()
+      """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+      " List your plugins here
+      Plug 'tpope/vim-sensible'
+
+      "" nerdtree
+      Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+      nnoremap <leader>n :NERDTreeFocus<CR>
+      nnoremap <C-n> :NERDTree<CR>
+      nnoremap <C-t> :NERDTreeToggle<CR>
+      " nnoremap <C-f> :NERDTreeFind<CR>
+      let g:NERDTreeMapActivateNode = 'l'
+      let g:NERDTreeMapJumpParent = 'h'
+
+      "" bufferline
+      Plug 'vim-airline/vim-airline'
+      Plug 'vim-airline/vim-airline-themes'
+      let g:airline#extensions#tabline#enabled = 1
+
+
+      "" Delete buffers and close files in Vim without closing your windows or messing up your layout.
+      "Plug 'https://github.com/moll/vim-bbye'
+
+      "" ayu theme
+      Plug 'Luxed/ayu-vim'    " or other package manager
+    call plug#end()
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    "" set colorscheme ayu
+    set termguicolors       " enable true colors support
+    ""set background=light    " for light version of theme
+    set background=dark     " for either mirage or dark version.
+    " NOTE: `background` controls `g:ayucolor`, but `g:ayucolor` doesn't control `background`
+    ""let g:ayucolor="mirage" " for mirage version of theme
+    let g:ayucolor="dark"   " for dark version of theme
+    " NOTE: g:ayucolor will default to 'dark' when not set.
+    silent! colorscheme ayu
+  endif
+
+
+endif
+
+
+
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" VIM
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !has("nvim")
   "" Change Your Vim Cursor from a Block to Line in Insert Mode
   let &t_SI = "\e[6 q"
@@ -279,6 +489,18 @@ if !has("nvim")
     command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
   endif
 endif
+
+if has("nvim")
+  if has("unix")
+    "command! WW execute 'w !sudo -S tee % > /dev/null' <bar> edit!
+    "command! WW silent! write !sudo tee % > /dev/null | edit!
+    command! WW execute 'w !sudo -S tee % > /dev/null' | edit!
+  endif
+endif
+
+
+
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Neovide
@@ -294,78 +516,5 @@ if exists("g:neovide")
   let g:neovide_cursor_trail_size = 0.8 "" default = 0.7
   " let g:neovide_cursor_antialiasing = v:false  "" Disabling may fix some cursor visual issues.
 endif
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Vim-Plug
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""   Install vim-plug on Windows
-""   Run this in PowerShell
-"" iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni $HOME/vimfiles/autoload/plug.vim -Force
-""   OR 
-"" iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim | ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" auto install vim-plug
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has("unix") && !has("nvim")
-  let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-  if empty(glob(data_dir . '/autoload/plug.vim'))
-    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-endif
-
-
-if !has("nvim")
-call plug#begin()
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" List your plugins here
-
-"Plug 'tpope/vim-sensible'
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-
-Plug 'nvim-tree/nvim-web-devicons'
-" Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
-
-"" Delete buffers and close files in Vim without closing your windows or messing up your layout.
-"Plug 'https://github.com/moll/vim-bbye'
-
-"" ayu theme
-Plug 'Luxed/ayu-vim'    " or other package manager
-"...
-
-call plug#end()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" nerdtree config
-nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-let g:NERDTreeMapActivateNode = 'l'
-let g:NERDTreeMapJumpParent = 'h'
-
-"" bufferline config
-"set termguicolors
-"lua << EOF
-"require"bufferline".setup{}
-"EOF
-
-"" theme ayu loi trong terminal cua macOS, so fail back to habamax
-if !has("macunix")
-  "" ayu-theme
-  set termguicolors       " enable true colors support
-  ""set background=light    " for light version of theme
-  set background=dark     " for either mirage or dark version.
-  " NOTE: `background` controls `g:ayucolor`, but `g:ayucolor` doesn't control `background`
-  ""let g:ayucolor="mirage" " for mirage version of theme
-  let g:ayucolor="dark"   " for dark version of theme
-  " NOTE: g:ayucolor will default to 'dark' when not set.
-  silent! colorscheme ayu
-endif
-
-endif
-
-
 
 
