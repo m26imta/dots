@@ -176,17 +176,39 @@ noremap! <M-j> <Nop>
 noremap! <M-k> <Nop>
 noremap! <M-h> <Nop>
 noremap! <M-l> <Nop>
+noremap! <M-J> <Nop>
+noremap! <M-K> <Nop>
+noremap! <M-H> <Nop>
+noremap! <M-L> <Nop>
+noremap! <A-j> <Nop>
+noremap! <A-k> <Nop>
+noremap! <A-h> <Nop>
+noremap! <A-l> <Nop>
+noremap! <A-J> <Nop>
+noremap! <A-K> <Nop>
+noremap! <A-H> <Nop>
+noremap! <A-L> <Nop>
 " cnoremap <C-j> <DOWN>
 " cnoremap <C-k> <UP>
 " noremap! <C-h> <LEFT>
 " noremap! <C-l> <RIGHT>
 "" Moving around text with Alt + jkhl
-noremap! <M-j> <DOWN>
-noremap! <M-k> <UP>
-noremap! <ESC>j <DOWN>
-noremap! <ESC>k <UP>
+cnoremap <M-j> <DOWN>
+cnoremap <M-k> <UP>
+inoremap <M-j> <C-O>g<DOWN>
+inoremap <M-k> <C-O>g<UP>
+cnoremap <A-j> <DOWN>
+cnoremap <A-k> <UP>
+inoremap <A-j> <C-O>g<DOWN>
+inoremap <A-k> <C-O>g<UP>
+cnoremap <ESC>j <DOWN>
+cnoremap <ESC>k <UP>
+inoremap <ESC>j <C-O>g<DOWN>
+inoremap <ESC>k <C-O>g<UP>
 noremap! <M-h> <LEFT>
 noremap! <M-l> <RIGHT>
+noremap! <A-h> <LEFT>
+noremap! <A-l> <RIGHT>
 noremap! <ESC>h <LEFT>
 noremap! <ESC>l <RIGHT>
 
