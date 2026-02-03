@@ -6,6 +6,18 @@
 "" minimal -  true: no plugin / false: use plugin
 let minimal=v:true
 
+if has('win32')
+  call system('ping -n 1 google.com >null')
+else
+  call system('ping -c 1 google.com >/dev/null 2>&1')
+endif
+if v:shell_error != 0
+  let minimal = v:true
+else
+  let minimal = v:false
+endif
+
+
 let mapleader = " "
 let maplocalleader = "\\"
 
