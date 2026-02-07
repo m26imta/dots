@@ -26,7 +26,7 @@ silent! color habamax
 
 "" Options
 set timeout timeoutlen=300
-set clipboard=unnamed,unnamedplus
+"" set clipboard=unnamed,unnamedplus
 set mouse=a number norelativenumber cursorline
 set ts=2 sw=2 sts=2
 set autoindent smartindent expandtab smarttab
@@ -48,6 +48,29 @@ map <S-q> <Nop>
 map <S-j> <Nop>
 "map <S-k> <Nop>
 
+
+if has("nvim")
+  set clipboard=unnamed,unnamedplus
+else
+  "" CLIPBOARD
+  function! IsWayland() abort
+    if exists('$XDG_SESSION_TYPE') && $XDG_SESSION_TYPE ==# 'wayland'
+      return 1
+    endif
+    if exists('$WAYLAND_DISPLAY') && !empty($WAYLAND_DISPLAY)
+      return 1
+    endif
+    return 0
+  endfunction
+
+  if IsWayland()
+    " Wayland → wl-clipboard
+    vnoremap gy y:call system('wl-copy', @")<CR>
+  else
+    " X11 → xsel
+    vnoremap gy y:call system('xsel --nodetach -i -b', @")<CR>
+  endif
+endif
 
 
 
@@ -110,7 +133,7 @@ inoremap <C-S> <Esc>:update<CR>gi
 "" Clipboard
 "" yank & copy register " to system clipboard, and you can user CTRL+SHIFT+V
 ""to paste to
-xnoremap gy y:call system('xsel -i -b', getreg('"'))<CR>    ;"" yank & copy register " to system clipboard
+" vnoremap gy y:call system('xsel -i -b', @")<CR>    ;"" yank & copy register " to system clipboard
 "" Quick paste using + register
 "" inoremap <C-r><C-r> <C-\><C-o>"+P
 inoremap <C-r><C-e> <C-\><C-o>"+P
